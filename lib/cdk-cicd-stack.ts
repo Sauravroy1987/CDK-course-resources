@@ -1,4 +1,4 @@
-import * as cdk from "aws-cdk-lib/core";
+import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   CodePipeline,
@@ -12,12 +12,22 @@ export class CdkCicdStack extends cdk.Stack {
 
     const pipeline = new CodePipeline(this, "PracticePipeline", {
       pipelineName: "PracticePipeline",
+
       synth: new ShellStep("Synth", {
         input: CodePipelineSource.gitHub(
-          "Sauravroy1987/CDK-course-resources", // Github Repository
-          "cicd-practice" // Branch Name inside repository. Full root directory 'AWS_CDK_PROJECTS'
+          "Sauravroy1987/CDK-course-resources", // GitHub repo
+          "cicd-practice", // Branch name
+          {
+            authentication: cdk.SecretValue.secretsManager("github-token"),
+          }
         ),
-        commands: ["npm ci", "npx cdk synth"], // Commands to execute on code
+
+        commands: [
+          "npm ci",
+          "npm run build", // recommended if you use TypeScript
+          "npx cdk synth",
+        ],
+
         primaryOutputDirectory: "cdk.out",
       }),
     });
