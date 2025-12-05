@@ -18,7 +18,7 @@ export class CdkCicdStack extends cdk.Stack {
           "cicd-practice" // Branch Name inside repository. Full root directory 'AWS_CDK_PROJECTS'
         ),
         commands: ["npm ci", "npx cdk synth"], // Commands to execute on code
-        primaryOutputDirectory: "cdk-cicd/cdk.out",
+        primaryOutputDirectory: "cdk.out",
       }),
     });
   }
