@@ -17,11 +17,7 @@ export class CdkCicdStack extends cdk.Stack {
           "Sauravroy1987/CDK-course-resources", // Github Repository
           "cicd-practice" // Branch Name inside repository. Full root directory 'AWS_CDK_PROJECTS'
         ),
-        commands: [
-          "cd cdk-cicd", // Just build and deploy the code inside 'cdk-cicd'
-          "npm ci",
-          "npx cdk synth",
-        ], // Commands to execute on code
+        commands: ["npm ci", "npx cdk synth"], // Commands to execute on code
         primaryOutputDirectory: "cdk-cicd/cdk.out",
       }),
     });
