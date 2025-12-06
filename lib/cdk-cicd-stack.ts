@@ -5,6 +5,7 @@ import {
   CodePipelineSource,
   ShellStep,
 } from "aws-cdk-lib/pipelines";
+import { PipelineStage } from "./PipelineStage";
 
 export class CdkCicdStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -18,6 +19,8 @@ export class CdkCicdStack extends cdk.Stack {
           "Sauravroy1987/CDK-course-resources", // GitHub repo
           "cicd-practice", // Branch name
           {
+            // codepipeline will use github-token secret to authenticate and connect github
+            // github-token has GITHUB token secret
             authentication: cdk.SecretValue.secretsManager("github-token"),
           }
         ),
@@ -31,5 +34,11 @@ export class CdkCicdStack extends cdk.Stack {
         primaryOutputDirectory: "cdk.out",
       }),
     });
+    // Add Stage to PipeLine
+    pipeline.addStage(
+      new PipelineStage(this, "PipeLineTestStage", {
+        stageName: "Test",
+      })
+    );
   }
 }
