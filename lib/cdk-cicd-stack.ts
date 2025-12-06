@@ -46,7 +46,7 @@ export class CdkCicdStack extends cdk.Stack {
     // Execute test before the Stage(testStage) start
     testStage.addPre(
       new CodeBuildStep("Unit test", {
-        commands: ["cd..", "npm ci", "npm test"],
+        commands: ["cd ..", "npm ci", "npm test"],
       })
     );
   }
