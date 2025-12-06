@@ -6,6 +6,6 @@ describe("Hello describe test suite", () => {
     const result = await handler({} as any, {} as any);
 
     // Assertion, the fetch method will call once
-    expect(result.statusCode).toBe(200);
+    expect(result.statusCode).toBe(202);
   });
 });
