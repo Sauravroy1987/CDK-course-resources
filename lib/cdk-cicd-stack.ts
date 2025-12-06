@@ -1,6 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
+  CodeBuildStep,
   CodePipeline,
   CodePipelineSource,
   ShellStep,
@@ -26,7 +27,7 @@ export class CdkCicdStack extends cdk.Stack {
         ),
 
         commands: [
-          "npm ci",
+          "npm ci", // Install dependencies from package-lock.json
           "npm run build", // recommended if you use TypeScript
           "npx cdk synth",
         ],
@@ -34,10 +35,18 @@ export class CdkCicdStack extends cdk.Stack {
         primaryOutputDirectory: "cdk.out",
       }),
     });
+
     // Add Stage to PipeLine
-    pipeline.addStage(
+    const testStage = pipeline.addStage(
       new PipelineStage(this, "PipeLineTestStage", {
         stageName: "Test",
+      })
+    );
+
+    // Execute test before the Stage(testStage) start
+    testStage.addPre(
+      new CodeBuildStep("Unit test", {
+        commands: ["cd..", "npm ci", "npm test"],
       })
     );
   }
